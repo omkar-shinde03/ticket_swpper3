@@ -26,6 +26,26 @@ export const PurchasedTickets = ({ userId }) => {
   useEffect(() => {
     if (userId) {
       loadPurchasedTickets();
+      // Subscribe to realtime changes for this buyer's tickets
+      const channel = supabase
+        .channel('purchased_tickets_changes')
+        .on(
+          'postgres_changes',
+          {
+            event: '*',
+            schema: 'public',
+            table: 'tickets',
+            filter: `buyer_id=eq.${userId}`
+          },
+          () => {
+            loadPurchasedTickets();
+          }
+        )
+        .subscribe();
+
+      return () => {
+        supabase.removeChannel(channel);
+      };
     }
   }, [userId]);
 
