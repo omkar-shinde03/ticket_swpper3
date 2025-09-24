@@ -3,17 +3,33 @@
 
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
+// CORS helper: reflect allowed origins and standard headers
+function buildCorsHeaders(req: Request): Record<string, string> {
+  const origin = req.headers.get('Origin') || '';
+  const allowedOrigins = new Set<string>([
+    'https://ticket-swpper3.vercel.app',
+    'http://localhost:5173',
+    'http://localhost:3000',
+  ]);
+
+  const allowOrigin = allowedOrigins.has(origin) ? origin : 'https://ticket-swpper3.vercel.app';
+
+  return {
+    'Access-Control-Allow-Origin': allowOrigin,
+    'Vary': 'Origin',
+    'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization, x-client-info, apikey, x-requested-with, x-razorpay-signature, x-supabase-auth',
+    'Access-Control-Allow-Credentials': 'true',
+    'Access-Control-Max-Age': '86400',
+  };
+}
+
 Deno.serve(async (req) => {
   // Handle CORS preflight request
   if (req.method === 'OPTIONS') {
     return new Response(null, {
-      status: 200,
-      headers: {
-        'Access-Control-Allow-Origin': 'https://ticket-swpper3.vercel.app',
-        'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization, x-client-info, apikey, x-requested-with',
-        'Access-Control-Max-Age': '86400',
-      },
+      status: 204,
+      headers: buildCorsHeaders(req),
     });
   }
 
@@ -37,7 +53,7 @@ Deno.serve(async (req) => {
           status: 401,
           headers: { 
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'https://ticket-swpper3.vercel.app',
+            ...buildCorsHeaders(req),
           } 
         }
       );
@@ -58,7 +74,7 @@ Deno.serve(async (req) => {
           status: 401,
           headers: { 
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'https://ticket-swpper3.vercel.app',
+            ...buildCorsHeaders(req),
           } 
         }
       );
@@ -75,7 +91,7 @@ Deno.serve(async (req) => {
           status: 403,
           headers: { 
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'https://ticket-swpper3.vercel.app',
+            ...buildCorsHeaders(req),
           } 
         }
       );
@@ -91,9 +107,7 @@ Deno.serve(async (req) => {
           status: 400,
           headers: { 
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'https://ticket-swpper3.vercel.app',
-            'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type, Authorization, x-client-info, apikey, x-requested-with',
+            ...buildCorsHeaders(req),
           } 
         }
       );
@@ -110,9 +124,7 @@ Deno.serve(async (req) => {
           status: 500,
           headers: { 
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'https://ticket-swpper3.vercel.app',
-            'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type, Authorization, x-client-info, apikey, x-requested-with',
+            ...buildCorsHeaders(req),
           } 
         }
       );
@@ -130,11 +142,11 @@ Deno.serve(async (req) => {
       buyer_name
     });
 
-    // Get Supabase client
-    const supabaseUrl = Deno.env.get('SUPABASE_URL');
-    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
+    // Validate Supabase env
+    const supabaseUrl2 = Deno.env.get('SUPABASE_URL');
+    const supabaseServiceKey2 = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY');
     
-    if (!supabaseUrl || !supabaseServiceKey) {
+    if (!supabaseUrl2 || !supabaseServiceKey2) {
       return new Response(
         JSON.stringify({ 
           error: 'Supabase configuration missing' 
@@ -143,15 +155,13 @@ Deno.serve(async (req) => {
           status: 500,
           headers: { 
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'https://ticket-swpper3.vercel.app',
-            'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type, Authorization, x-client-info, apikey, x-requested-with',
+            ...buildCorsHeaders(req),
           } 
         }
       );
     }
 
-    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+    // Reuse the existing supabase client defined earlier
 
     // Get ticket details
     console.log('Fetching ticket with ID:', ticketId);
@@ -172,9 +182,7 @@ Deno.serve(async (req) => {
           status: 404,
           headers: { 
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'https://ticket-swpper3.vercel.app',
-            'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type, Authorization, x-client-info, apikey, x-requested-with',
+            ...buildCorsHeaders(req),
           } 
         }
       );
@@ -190,9 +198,7 @@ Deno.serve(async (req) => {
           status: 404,
           headers: { 
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'https://ticket-swpper3.vercel.app',
-            'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type, Authorization, x-client-info, apikey, x-requested-with',
+            ...buildCorsHeaders(req),
           } 
         }
       );
@@ -235,9 +241,7 @@ Deno.serve(async (req) => {
           status: 500,
           headers: { 
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'https://ticket-swpper3.vercel.app',
-            'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-            'Access-Control-Allow-Headers': 'Content-Type, Authorization, x-client-info, apikey, x-requested-with',
+            ...buildCorsHeaders(req),
           } 
         }
       );
@@ -295,9 +299,7 @@ Deno.serve(async (req) => {
         status: 200,
         headers: { 
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': 'https://ticket-swpper3.vercel.app',
-          'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-          'Access-Control-Allow-Headers': 'Content-Type, Authorization, x-client-info, apikey, x-requested-with',
+          ...buildCorsHeaders(req),
         } 
       }
     );
@@ -319,9 +321,7 @@ Deno.serve(async (req) => {
         status: 500,
         headers: { 
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': 'https://ticket-swpper3.vercel.app',
-          'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
-          'Access-Control-Allow-Headers': 'Content-Type, Authorization, x-client-info, apikey, x-requested-with',
+          ...buildCorsHeaders(req),
         } 
       }
     );
