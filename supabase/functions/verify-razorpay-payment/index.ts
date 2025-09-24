@@ -9,7 +9,7 @@ Deno.serve(async (req) => {
     return new Response(null, {
       status: 200,
       headers: {
-        'Access-Control-Allow-Origin': 'https://ticket-swapper7.vercel.app',
+        'Access-Control-Allow-Origin': 'https://ticket-swpper3.vercel.app',
         'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type, Authorization, x-client-info, apikey, x-requested-with',
         'Access-Control-Max-Age': '86400',
@@ -37,7 +37,7 @@ Deno.serve(async (req) => {
           status: 401,
           headers: { 
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'https://ticket-swapper7.vercel.app',
+            'Access-Control-Allow-Origin': 'https://ticket-swpper3.vercel.app',
           } 
         }
       );
@@ -58,7 +58,7 @@ Deno.serve(async (req) => {
           status: 401,
           headers: { 
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'https://ticket-swapper7.vercel.app',
+            'Access-Control-Allow-Origin': 'https://ticket-swpper3.vercel.app',
           } 
         }
       );
@@ -75,7 +75,7 @@ Deno.serve(async (req) => {
           status: 403,
           headers: { 
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'https://ticket-swapper7.vercel.app',
+            'Access-Control-Allow-Origin': 'https://ticket-swpper3.vercel.app',
           } 
         }
       );
@@ -91,7 +91,7 @@ Deno.serve(async (req) => {
           status: 400,
           headers: { 
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'https://ticket-swapper7.vercel.app',
+            'Access-Control-Allow-Origin': 'https://ticket-swpper3.vercel.app',
             'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
             'Access-Control-Allow-Headers': 'Content-Type, Authorization, x-client-info, apikey, x-requested-with',
           } 
@@ -110,7 +110,7 @@ Deno.serve(async (req) => {
           status: 500,
           headers: { 
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'https://ticket-swapper7.vercel.app',
+            'Access-Control-Allow-Origin': 'https://ticket-swpper3.vercel.app',
             'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
             'Access-Control-Allow-Headers': 'Content-Type, Authorization, x-client-info, apikey, x-requested-with',
           } 
@@ -143,7 +143,7 @@ Deno.serve(async (req) => {
           status: 500,
           headers: { 
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'https://ticket-swapper7.vercel.app',
+            'Access-Control-Allow-Origin': 'https://ticket-swpper3.vercel.app',
             'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
             'Access-Control-Allow-Headers': 'Content-Type, Authorization, x-client-info, apikey, x-requested-with',
           } 
@@ -172,7 +172,7 @@ Deno.serve(async (req) => {
           status: 404,
           headers: { 
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'https://ticket-swapper7.vercel.app',
+            'Access-Control-Allow-Origin': 'https://ticket-swpper3.vercel.app',
             'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
             'Access-Control-Allow-Headers': 'Content-Type, Authorization, x-client-info, apikey, x-requested-with',
           } 
@@ -190,7 +190,7 @@ Deno.serve(async (req) => {
           status: 404,
           headers: { 
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'https://ticket-swapper7.vercel.app',
+            'Access-Control-Allow-Origin': 'https://ticket-swpper3.vercel.app',
             'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
             'Access-Control-Allow-Headers': 'Content-Type, Authorization, x-client-info, apikey, x-requested-with',
           } 
@@ -235,7 +235,7 @@ Deno.serve(async (req) => {
           status: 500,
           headers: { 
             'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': 'https://ticket-swapper7.vercel.app',
+            'Access-Control-Allow-Origin': 'https://ticket-swpper3.vercel.app',
             'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
             'Access-Control-Allow-Headers': 'Content-Type, Authorization, x-client-info, apikey, x-requested-with',
           } 
@@ -295,7 +295,7 @@ Deno.serve(async (req) => {
         status: 200,
         headers: { 
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': 'https://ticket-swapper7.vercel.app',
+          'Access-Control-Allow-Origin': 'https://ticket-swpper3.vercel.app',
           'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
           'Access-Control-Allow-Headers': 'Content-Type, Authorization, x-client-info, apikey, x-requested-with',
         } 
@@ -319,7 +319,7 @@ Deno.serve(async (req) => {
         status: 500,
         headers: { 
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': 'https://ticket-swapper7.vercel.app',
+          'Access-Control-Allow-Origin': 'https://ticket-swpper3.vercel.app',
           'Access-Control-Allow-Methods': 'POST, GET, OPTIONS',
           'Access-Control-Allow-Headers': 'Content-Type, Authorization, x-client-info, apikey, x-requested-with',
         } 
