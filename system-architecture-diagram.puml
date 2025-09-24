@@ -1,0 +1,261 @@
+@startuml Testemony Ticketswapper - System Architecture
+!theme azure
+title Testemony Ticketswapper - System Architecture Diagram
+caption Bus Ticket Marketplace Platform - Azure Well-Architected Framework Compliant
+
+' Metadata
+!define RECTANGLE class
+
+' Color scheme for consistency
+skinparam backgroundColor #FFFFFF
+skinparam classBackgroundColor #E3F2FD
+skinparam classBorderColor #1976D2
+skinparam arrowColor #1976D2
+skinparam noteBackgroundColor #FFF3E0
+skinparam noteBorderColor #FF9800
+
+' User Layer
+package "User Interface Layer" as UI {
+    [Web Application] as WebApp
+    [Mobile Application] as MobileApp
+    [Admin Dashboard] as AdminDashboard
+    
+    note right of WebApp
+        React.js SPA with Vite
+        Tailwind CSS + Radix UI
+        Responsive Design
+    end note
+    
+    note right of MobileApp
+        Progressive Web App (PWA)
+        Touch-optimized Interface
+        Offline Capability
+    end note
+}
+
+' Frontend Services Layer
+package "Frontend Services Layer" as FrontendServices {
+    [Authentication Service] as AuthService
+    [Ticket Management Service] as TicketService
+    [Payment Service] as PaymentService
+    [Messaging Service] as MessagingService
+    [KYC Service] as KYCService
+    [Video Call Service] as VideoCallService
+    
+    note right of AuthService
+        Firebase Authentication
+        Phone Number Verification
+        JWT Token Management
+    end note
+    
+    note right of PaymentService
+        Razorpay Integration
+        Stripe Integration
+        Escrow System
+    end note
+}
+
+' API Gateway Layer
+package "API Gateway & Load Balancer" as APIGateway {
+    [API Gateway] as Gateway
+    [Load Balancer] as LoadBalancer
+    [Rate Limiting] as RateLimit
+    [Authentication Middleware] as AuthMiddleware
+    
+    note right of Gateway
+        Route Management
+        Request/Response Transformation
+        Error Handling
+    end note
+}
+
+' Backend Services Layer
+package "Backend Services Layer" as BackendServices {
+    [User Management Service] as UserService
+    [Ticket Verification Service] as TicketVerificationService
+    [Payment Processing Service] as PaymentProcessingService
+    [Notification Service] as NotificationService
+    [File Storage Service] as FileStorageService
+    [Analytics Service] as AnalyticsService
+    
+    note right of TicketVerificationService
+        PNR Validation
+        Document Verification
+        Admin Approval Workflow
+    end note
+    
+    note right of PaymentProcessingService
+        Escrow Management
+        Payout Processing
+        Transaction History
+    end note
+}
+
+' Data Layer
+package "Data Layer" as DataLayer {
+    database "Supabase Database" as SupabaseDB {
+        [Profiles Table] as Profiles
+        [Tickets Table] as Tickets
+        [Transactions Table] as Transactions
+        [Messages Table] as Messages
+        [KYC Documents Table] as KYCDocuments
+        [Video Calls Table] as VideoCalls
+        [Seller Payouts Table] as SellerPayouts
+    }
+    
+    database "Redis Cache" as RedisCache {
+        [Session Cache] as SessionCache
+        [Ticket Cache] as TicketCache
+        [Message Cache] as MessageCache
+    }
+    
+    database "File Storage" as FileStorage {
+        [Document Storage] as DocumentStorage
+        [Image Storage] as ImageStorage
+        [Video Storage] as VideoStorage
+    }
+}
+
+' External Services Layer
+package "External Services & Integrations" as ExternalServices {
+    [Firebase Auth] as FirebaseAuth
+    [Razorpay Payment] as Razorpay
+    [Stripe Payment] as Stripe
+    [Twilio SMS] as Twilio
+    [Email Service] as EmailService
+    [Push Notifications] as PushNotifications
+    
+    note right of FirebaseAuth
+        Phone Authentication
+        User Management
+        Security Rules
+    end note
+}
+
+' Infrastructure Layer
+package "Infrastructure & Deployment" as Infrastructure {
+    [Vercel/Netlify] as Hosting
+    [CDN] as CDN
+    [SSL/TLS] as SSL
+    [Monitoring] as Monitoring
+    [Logging] as Logging
+    
+    note right of Hosting
+        Global Edge Network
+        Auto-scaling
+        CI/CD Pipeline
+    end note
+}
+
+' Security Layer
+package "Security & Compliance" as Security {
+    [KYC Verification] as KYCVerification
+    [Data Encryption] as DataEncryption
+    [Access Control] as AccessControl
+    [Audit Logging] as AuditLogging
+    [GDPR Compliance] as GDPRCompliance
+    
+    note right of KYCVerification
+        Document Verification
+        Video Call Verification
+        Admin Review Process
+    end note
+}
+
+' Relationships - User Interface to Frontend Services
+WebApp --> AuthService : Authentication
+WebApp --> TicketService : Ticket Operations
+WebApp --> PaymentService : Payment Processing
+WebApp --> MessagingService : Real-time Chat
+WebApp --> KYCService : Document Upload
+WebApp --> VideoCallService : Video Verification
+
+MobileApp --> AuthService : Mobile Auth
+MobileApp --> TicketService : Mobile Ticket Ops
+MobileApp --> PaymentService : Mobile Payments
+
+AdminDashboard --> KYCService : Admin Verification
+AdminDashboard --> TicketVerificationService : Ticket Review
+AdminDashboard --> AnalyticsService : Platform Analytics
+
+' Frontend Services to API Gateway
+AuthService --> Gateway : API Calls
+TicketService --> Gateway : Ticket API
+PaymentService --> Gateway : Payment API
+MessagingService --> Gateway : Messaging API
+KYCService --> Gateway : KYC API
+VideoCallService --> Gateway : Video API
+
+' API Gateway to Backend Services
+Gateway --> UserService : User Management
+Gateway --> TicketVerificationService : Ticket Verification
+Gateway --> PaymentProcessingService : Payment Processing
+Gateway --> NotificationService : Notifications
+Gateway --> FileStorageService : File Operations
+Gateway --> AnalyticsService : Analytics
+
+' Backend Services to Data Layer
+UserService --> SupabaseDB : User Data
+TicketVerificationService --> SupabaseDB : Ticket Data
+PaymentProcessingService --> SupabaseDB : Transaction Data
+MessagingService --> SupabaseDB : Message Data
+KYCService --> SupabaseDB : KYC Data
+VideoCallService --> SupabaseDB : Call Data
+
+' Cache Layer
+TicketService --> RedisCache : Ticket Cache
+MessagingService --> RedisCache : Message Cache
+AuthService --> RedisCache : Session Cache
+
+' File Storage
+KYCService --> FileStorage : Document Upload
+VideoCallService --> FileStorage : Video Storage
+
+' External Integrations
+AuthService --> FirebaseAuth : Authentication
+PaymentService --> Razorpay : Indian Payments
+PaymentService --> Stripe : International Payments
+NotificationService --> Twilio : SMS Notifications
+NotificationService --> EmailService : Email Notifications
+NotificationService --> PushNotifications : Push Alerts
+
+' Infrastructure
+Hosting --> CDN : Content Delivery
+Hosting --> SSL : Security
+Monitoring --> Logging : System Logs
+
+' Security Layer Integration
+KYCService --> KYCVerification : Verification Process
+DataEncryption --> SupabaseDB : Encrypted Storage
+AccessControl --> Gateway : Authorization
+AuditLogging --> SupabaseDB : Audit Trails
+
+' Scalability Indicators
+note top of LoadBalancer
+    Auto-scaling based on demand
+    Geographic distribution
+    Load balancing algorithms
+end note
+
+note top of RedisCache
+    Horizontal scaling
+    Cluster management
+    Failover support
+end note
+
+note top of SupabaseDB
+    PostgreSQL with real-time
+    Row Level Security (RLS)
+    Automatic backups
+    Point-in-time recovery
+end note
+
+' Future Growth Considerations
+note bottom of Infrastructure
+    Microservices architecture ready
+    Container orchestration support
+    Multi-region deployment capability
+    Auto-scaling infrastructure
+end note
+
+@enduml

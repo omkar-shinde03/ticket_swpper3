@@ -1,0 +1,500 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+    <meta name="viewport-height" content="100vh" />
+    <title>TicketSwapper</title>
+    <meta name="description" content="Secure marketplace for buying and selling bus tickets. Get the best deals on bus tickets across India." />
+    <meta name="author" content="TicketSwapper" />
+    
+    <!-- Mobile-specific meta tags -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="TicketSwapper" />
+    <meta name="application-name" content="TicketSwapper" />
+    <meta name="msapplication-TileColor" content="#3b82f6" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    
+    <!-- Theme and colors -->
+    <meta name="theme-color" content="#3b82f6" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/placeholder.svg" />
+    
+    <!-- PWA manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Apple touch icons -->
+    <link rel="apple-touch-icon" href="/placeholder.svg" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/placeholder.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/placeholder.svg" />
+    <link rel="apple-touch-icon" sizes="167x167" href="/placeholder.svg" />
+    
+    
+    <!-- Preconnect to external domains for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    
+    <!-- Open Graph meta tags -->
+    <meta property="og:title" content="TicketSwapper - Buy & Sell Bus Tickets" />
+    <meta property="og:description" content="Secure marketplace for buying and selling bus tickets. Get the best deals on bus tickets across India." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://ticketswapper.com" />
+    <meta property="og:image" content="/placeholder.svg" />
+    <meta property="og:site_name" content="TicketSwapper" />
+    
+    <!-- Twitter Card meta tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="TicketSwapper - Buy & Sell Bus Tickets" />
+    <meta name="twitter:description" content="Secure marketplace for buying and selling bus tickets. Get the best deals on bus tickets across India." />
+    <meta name="twitter:image" content="/placeholder.svg" />
+    
+    <!-- Mobile-specific CSS -->
+    <style>
+      /* Prevent flash of unstyled content */
+      html {
+        visibility: hidden;
+        opacity: 0;
+      }
+      
+      /* Mobile-specific base styles */
+      * {
+        box-sizing: border-box;
+      }
+      
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-tap-highlight-color: transparent;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        user-select: none;
+        overscroll-behavior: none;
+        background-color: #f8fafc;
+      }
+      
+      /* Safe area support for notched devices */
+      @supports (padding: max(0px)) {
+        body {
+          padding-left: max(0px, env(safe-area-inset-left));
+          padding-right: max(0px, env(safe-area-inset-right));
+          padding-top: max(0px, env(safe-area-inset-top));
+          padding-bottom: max(0px, env(safe-area-inset-bottom));
+        }
+      }
+      
+      /* Loading spinner */
+      .loading-spinner {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 40px;
+        height: 40px;
+        border: 3px solid #e5e7eb;
+        border-top: 3px solid #3b82f6;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        z-index: 9999;
+      }
+      
+      @keyframes spin {
+        0% { transform: translate(-50%, -50%) rotate(0deg); }
+        100% { transform: translate(-50%, -50%) rotate(360deg); }
+      }
+      
+      /* Mobile-specific utility classes */
+      .mobile-container {
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 0 16px;
+      }
+      
+      .mobile-safe-area {
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+        padding-left: env(safe-area-inset-left, 0px);
+        padding-right: env(safe-area-inset-right, 0px);
+      }
+      
+      /* Touch-friendly button styles */
+      .touch-button {
+        min-height: 44px;
+        min-width: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        -webkit-tap-highlight-color: transparent;
+      }
+      
+      .touch-button:active {
+        transform: scale(0.95);
+      }
+      
+      /* Mobile-specific shadows */
+      .mobile-shadow {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      
+      .mobile-shadow-lg {
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      }
+      
+      /* Mobile-specific borders */
+      .mobile-border {
+        border: 1px solid rgba(226, 232, 240, 0.8);
+      }
+      
+      /* Mobile-specific gradients */
+      .mobile-gradient {
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      }
+      
+      /* Mobile-specific backdrop blur */
+      .mobile-backdrop {
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+      }
+      
+      /* Mobile-specific transitions */
+      .mobile-transition {
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      /* Mobile-specific hover effects */
+      .mobile-hover {
+        transition: all 0.2s ease;
+      }
+      
+      .mobile-hover:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+      }
+      
+      /* Mobile-specific active states */
+      .mobile-active:active {
+        transform: scale(0.95);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      }
+      
+      /* Mobile-specific focus states */
+      .mobile-focus:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+      }
+      
+      /* Mobile-specific disabled states */
+      .mobile-disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        pointer-events: none;
+      }
+      
+      /* Mobile-specific responsive utilities */
+      @media (max-width: 768px) {
+        .mobile-only {
+          display: block;
+        }
+        
+        .desktop-only {
+          display: none;
+        }
+        
+        /* Mobile-specific text sizes */
+        .mobile-text-xs {
+          font-size: 0.75rem;
+          line-height: 1rem;
+        }
+        
+        .mobile-text-sm {
+          font-size: 0.875rem;
+          line-height: 1.25rem;
+        }
+        
+        .mobile-text-base {
+          font-size: 1rem;
+          line-height: 1.5rem;
+        }
+        
+        .mobile-text-lg {
+          font-size: 1.125rem;
+          line-height: 1.75rem;
+        }
+        
+        .mobile-text-xl {
+          font-size: 1.25rem;
+          line-height: 1.75rem;
+        }
+        
+        /* Mobile-specific spacing */
+        .mobile-space-y-2 > * + * {
+          margin-top: 0.5rem;
+        }
+        
+        .mobile-space-y-4 > * + * {
+          margin-top: 1rem;
+        }
+        
+        .mobile-space-y-6 > * + * {
+          margin-top: 1.5rem;
+        }
+      }
+      
+      @media (min-width: 769px) {
+        .mobile-only {
+          display: none;
+        }
+        
+        .desktop-only {
+          display: block;
+        }
+      }
+      
+      /* Mobile-specific scroll snap */
+      .mobile-snap-y {
+        scroll-snap-type: y mandatory;
+      }
+      
+      .mobile-snap-start {
+        scroll-snap-align: start;
+      }
+      
+      .mobile-snap-center {
+        scroll-snap-align: center;
+      }
+      
+      .mobile-snap-end {
+        scroll-snap-align: end;
+      }
+      
+      /* Mobile-specific overscroll behavior */
+      .mobile-overscroll-none {
+        overscroll-behavior: none;
+      }
+      
+      .mobile-overscroll-contain {
+        overscroll-behavior: contain;
+      }
+      
+      /* Mobile-specific touch actions */
+      .mobile-touch-none {
+        touch-action: none;
+      }
+      
+      .mobile-touch-pan-x {
+        touch-action: pan-x;
+      }
+      
+      .mobile-touch-pan-y {
+        touch-action: pan-y;
+      }
+      
+      .mobile-touch-manipulation {
+        touch-action: manipulation;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Loading spinner -->
+    <div class="loading-spinner" id="loading-spinner"></div>
+    
+    <div id="root"></div>
+    
+    <script type="module" src="/src/main.jsx"></script>
+    
+    <!-- Mobile-specific scripts -->
+    <script>
+      // Hide loading spinner when app is ready
+      window.addEventListener('load', () => {
+        const spinner = document.getElementById('loading-spinner');
+        if (spinner) {
+          spinner.style.display = 'none';
+        }
+        
+        // Show content
+        document.documentElement.style.visibility = 'visible';
+        document.documentElement.style.opacity = '1';
+      });
+      
+      // Mobile-specific utilities
+      window.mobileUtils = {
+        // Check if device is mobile
+        isMobile: () => {
+          return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+                 window.innerWidth <= 768;
+        },
+        
+        // Check if device supports touch
+        isTouchDevice: () => {
+          return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        },
+        
+        // Check if device is iOS
+        isIOS: () => {
+          return /iPad|iPhone|iPod/.test(navigator.userAgent);
+        },
+        
+        // Check if device is Android
+        isAndroid: () => {
+          return /Android/.test(navigator.userAgent);
+        },
+        
+        // Get device pixel ratio
+        getPixelRatio: () => {
+          return window.devicePixelRatio || 1;
+        },
+        
+        // Check if device supports PWA
+        supportsPWA: () => {
+          return 'serviceWorker' in navigator && 'PushManager' in window;
+        },
+        
+        // Check if app is installed
+        isInstalled: () => {
+          return window.matchMedia('(display-mode: standalone)').matches ||
+                 window.navigator.standalone === true;
+        },
+        
+        // Trigger haptic feedback
+        triggerHaptic: () => {
+          if ('vibrate' in navigator) {
+            navigator.vibrate(10);
+          }
+        },
+        
+        // Get safe area insets
+        getSafeAreaInsets: () => {
+          const style = getComputedStyle(document.documentElement);
+          return {
+            top: parseInt(style.getPropertyValue('--sat') || '0'),
+            right: parseInt(style.getPropertyValue('--sar') || '0'),
+            bottom: parseInt(style.getPropertyValue('--sab') || '0'),
+            left: parseInt(style.getPropertyValue('--sal') || '0')
+          };
+        },
+        
+        // Add to home screen prompt
+        showAddToHomePrompt: () => {
+          if (window.deferredPrompt) {
+            window.deferredPrompt.prompt();
+            window.deferredPrompt.userChoice.then((choiceResult) => {
+              if (choiceResult.outcome === 'accepted') {
+                console.log('User accepted the A2HS prompt');
+              } else {
+                console.log('User dismissed the A2HS prompt');
+              }
+              window.deferredPrompt = null;
+            });
+          }
+        },
+        
+        // Share content
+        share: (data) => {
+          if (navigator.share) {
+            return navigator.share(data);
+          } else {
+            // Fallback for browsers without native sharing
+            if (data.url) {
+              navigator.clipboard.writeText(data.url);
+              alert('Link copied to clipboard!');
+            }
+          }
+        }
+      };
+      
+      // Handle beforeinstallprompt event
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        window.deferredPrompt = e;
+        console.log('Install prompt ready');
+      });
+      
+      // Handle app installed event
+      window.addEventListener('appinstalled', () => {
+        console.log('App installed successfully');
+        window.deferredPrompt = null;
+      });
+      
+      // Handle online/offline events
+      window.addEventListener('online', () => {
+        console.log('App is online');
+        document.body.classList.remove('offline');
+      });
+      
+      window.addEventListener('offline', () => {
+        console.log('App is offline');
+        document.body.classList.add('offline');
+      });
+      
+      // Handle orientation change
+      window.addEventListener('orientationchange', () => {
+        console.log('Orientation changed');
+        // Trigger resize event to update responsive layouts
+        window.dispatchEvent(new Event('resize'));
+      });
+      
+      // Handle viewport resize
+      let resizeTimeout;
+      window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+          console.log('Viewport resized');
+          // Update any responsive layouts here
+        }, 250);
+      });
+      
+      // Handle touch events for better mobile experience
+      document.addEventListener('touchstart', () => {}, { passive: true });
+      document.addEventListener('touchmove', () => {}, { passive: true });
+      document.addEventListener('touchend', () => {}, { passive: true });
+      
+      // Prevent zoom on double tap
+      let lastTouchEnd = 0;
+      document.addEventListener('touchend', (event) => {
+        const now = (new Date()).getTime();
+        if (now - lastTouchEnd <= 300) {
+          event.preventDefault();
+        }
+        lastTouchEnd = now;
+      }, false);
+      
+      // Handle scroll events for mobile performance
+      let scrollTimeout;
+      window.addEventListener('scroll', () => {
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+          // Handle scroll end
+        }, 100);
+      }, { passive: true });
+      
+      // Service Worker registration
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((registration) => {
+              console.log('SW registered: ', registration);
+            })
+            .catch((registrationError) => {
+              console.log('SW registration failed: ', registrationError);
+            });
+        });
+      }
+    </script>
+  </body>
+</html>

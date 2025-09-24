@@ -1,0 +1,38 @@
+-- 2. Create tickets table
+CREATE TABLE IF NOT EXISTS public.tickets (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  seller_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
+  pnr_number TEXT NOT NULL,
+  bus_operator TEXT,
+  departure_date DATE NOT NULL,
+  departure_time TIME NOT NULL,
+  from_location TEXT NOT NULL,
+  to_location TEXT NOT NULL,
+  passenger_name TEXT NOT NULL,
+  seat_number TEXT NOT NULL,
+  ticket_price DECIMAL(10,2) NOT NULL,
+  selling_price DECIMAL(10,2),
+  status TEXT DEFAULT 'available' CHECK (status IN ('available', 'sold', 'cancelled')),
+  verification_status TEXT DEFAULT 'pending' CHECK (verification_status IN ('pending', 'verified', 'rejected')),
+  transport_mode VARCHAR(20) DEFAULT 'bus' CHECK (transport_mode IN ('bus', 'train', 'plane')),
+  api_verified BOOLEAN DEFAULT false,
+  api_provider TEXT,
+  verification_confidence INTEGER DEFAULT 0,
+  verified_at TIMESTAMPTZ,
+  -- Train specific fields
+  train_number TEXT,
+  railway_operator TEXT,
+  platform_number TEXT,
+  coach_class VARCHAR(50),
+  berth_type VARCHAR(50),
+  railway_zone VARCHAR(100),
+  is_tatkal BOOLEAN DEFAULT FALSE,
+  -- Plane specific fields
+  flight_number TEXT,
+  airline_operator TEXT,
+  cabin_class VARCHAR(50),
+  airport_terminal TEXT,
+  baggage_allowance TEXT,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);

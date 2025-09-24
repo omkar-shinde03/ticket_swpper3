@@ -1,0 +1,17 @@
+# SPA Fallback - Redirect all routes to index.html
+/*    /index.html   200
+
+# Handle specific routes that might need different behavior
+/api/*  /api/:splat  200
+
+# Ensure proper MIME types for assets
+/assets/*  /assets/:splat  200
+  Content-Type: application/javascript
+
+# Service worker
+/sw.js  /sw.js  200
+  Content-Type: application/javascript
+
+# Manifest
+/manifest.json  /manifest.json  200
+  Content-Type: application/manifest+json

@@ -1,0 +1,128 @@
+@startuml Testemony Ticketswapper - Simplified Architecture
+!theme azure
+title Testemony Ticketswapper - Simplified System Architecture
+caption Core Components and Data Flow Overview
+
+' Color scheme
+skinparam backgroundColor #FFFFFF
+skinparam classBackgroundColor #E3F2FD
+skinparam classBorderColor #1976D2
+skinparam arrowColor #1976D2
+
+' Main Components
+package "Frontend" as Frontend {
+    [Web App\n(React + Vite)] as WebApp
+    [Mobile App\n(PWA)] as MobileApp
+    [Admin Dashboard] as AdminDashboard
+}
+
+package "Core Services" as Services {
+    [Authentication\n(Firebase)] as Auth
+    [Ticket Management] as Tickets
+    [Payment Processing\n(Razorpay + Stripe)] as Payments
+    [KYC Verification] as KYC
+    [Real-time Messaging] as Messaging
+}
+
+package "Backend" as Backend {
+    [API Gateway] as Gateway
+    [User Management] as UserMgmt
+    [Ticket Verification] as TicketVerif
+    [Payment Processing] as PaymentProc
+    [File Storage] as FileStorage
+}
+
+package "Data Storage" as Storage {
+    database "Supabase\n(PostgreSQL)" as Database {
+        [Users] as Users
+        [Tickets] as TicketsDB
+        [Transactions] as Transactions
+        [Messages] as MessagesDB
+        [KYC Documents] as KYCDocs
+    }
+    
+    [Redis Cache] as Cache
+    [File Storage] as Files
+}
+
+package "External Services" as External {
+    [Firebase Auth] as Firebase
+    [Razorpay] as Razorpay
+    [Stripe] as Stripe
+    [Twilio SMS] as Twilio
+}
+
+package "Infrastructure" as Infra {
+    [Vercel/Netlify] as Hosting
+    [CDN] as CDN
+    [SSL/TLS] as SSL
+}
+
+' Main Data Flow
+Frontend --> Services : User Interactions
+Services --> Gateway : API Requests
+Gateway --> Backend : Route to Services
+Backend --> Storage : Data Operations
+Services --> External : Third-party Integrations
+Frontend --> Infra : Hosting & Delivery
+
+' Key Relationships
+WebApp --> Auth : Login/Register
+WebApp --> Tickets : Buy/Sell Tickets
+WebApp --> Payments : Process Payments
+WebApp --> KYC : Upload Documents
+WebApp --> Messaging : Chat with Users
+
+MobileApp --> Auth : Mobile Authentication
+MobileApp --> Tickets : Mobile Ticket Ops
+
+AdminDashboard --> KYC : Verify Documents
+AdminDashboard --> TicketVerif : Review Tickets
+
+' Service to Service
+Auth --> Firebase : Phone Verification
+Payments --> Razorpay : Indian Payments
+Payments --> Stripe : International Payments
+Messaging --> Twilio : SMS Notifications
+
+' Data Flow
+UserMgmt --> Database : User Data
+TicketVerif --> Database : Ticket Data
+PaymentProc --> Database : Transaction Data
+FileStorage --> Files : Document Storage
+
+' Caching
+Tickets --> Cache : Ticket Cache
+Messaging --> Cache : Message Cache
+Auth --> Cache : Session Cache
+
+' Infrastructure
+Hosting --> CDN : Global Delivery
+CDN --> SSL : Secure Communication
+
+' Notes
+note right of Frontend
+    Responsive Design
+    Offline Capability
+    Real-time Updates
+end note
+
+note right of Services
+    Multi-gateway Payments
+    Escrow System
+    Document Verification
+end note
+
+note right of Storage
+    Real-time Database
+    Row Level Security
+    Automatic Backups
+end note
+
+note right of Infra
+    Edge Network
+    Auto-scaling
+    Global CDN
+end note
+
+@enduml
