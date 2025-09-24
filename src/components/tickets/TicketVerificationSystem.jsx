@@ -279,7 +279,7 @@ export const TicketVerificationSystem = ({ onVerificationComplete, initialData =
               onValueChange={(value) => setFormData({...formData, operator: value})}
               disabled={isVerifying}
             >
-              <SelectTrigger>
+              <SelectTrigger id="operator">
                 <SelectValue placeholder="Select operator" />
               </SelectTrigger>
               <SelectContent>

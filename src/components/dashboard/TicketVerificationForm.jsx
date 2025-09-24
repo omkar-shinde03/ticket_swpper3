@@ -315,7 +315,7 @@ export const TicketVerificationForm = ({ transportMode = 'bus', onVerificationCo
         <div className="space-y-2">
           <Label htmlFor="ticketType">Ticket Type *</Label>
           <Select value={selectedTicketType} onValueChange={handleTicketTypeChange} required>
-            <SelectTrigger>
+            <SelectTrigger id="ticketType">
               <SelectValue placeholder="Select ticket type" />
             </SelectTrigger>
             <SelectContent>

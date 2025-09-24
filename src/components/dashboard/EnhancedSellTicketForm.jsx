@@ -261,7 +261,7 @@ export const EnhancedSellTicketForm = ({ user }) => {
                 onValueChange={(value) => setFormData({ ...formData, ticket_type: value })}
                 required
               >
-                <SelectTrigger>
+                <SelectTrigger id="ticket_type">
                   <SelectValue placeholder="Select ticket type" />
                 </SelectTrigger>
                 <SelectContent>
