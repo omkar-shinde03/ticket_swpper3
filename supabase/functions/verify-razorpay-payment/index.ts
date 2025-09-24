@@ -247,7 +247,7 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Update ticket status and passenger name with buyer's name
+    // Update ticket status and passenger name with buyer's name (local DB)
     const { error: ticketUpdateError } = await supabase
       .from('tickets')
       .update({ 
@@ -260,6 +260,34 @@ Deno.serve(async (req) => {
 
     if (ticketUpdateError) {
       console.error('Ticket update error:', ticketUpdateError);
+    }
+
+    // Mirror passenger name update to External API (if configured)
+    try {
+      const externalUrl = Deno.env.get('EXTERNAL_SUPABASE_URL');
+      const externalKey = Deno.env.get('EXTERNAL_SUPABASE_SERVICE_ROLE_KEY') || Deno.env.get('EXTERNAL_SUPABASE_ANON_KEY');
+      if (externalUrl && externalKey && ticket?.pnr_number) {
+        const endpoint = `${externalUrl.replace(/\/$/, '')}/rest/v1/tickets?pnr_number=eq.${encodeURIComponent(ticket.pnr_number)}`;
+        const resp = await fetch(endpoint, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': externalKey,
+            'Authorization': `Bearer ${externalKey}`
+          },
+          body: JSON.stringify({ passenger_name: buyer_name || 'Unknown Buyer' })
+        });
+        if (!resp.ok) {
+          const errText = await resp.text();
+          console.warn('External API passenger_name update failed:', resp.status, errText);
+        } else {
+          console.log('External API passenger_name updated for PNR:', ticket.pnr_number);
+        }
+      } else {
+        console.log('External API env not configured or missing PNR, skipping external update');
+      }
+    } catch (extErr) {
+      console.warn('External API update error:', extErr);
     }
 
     // Create seller payout record
