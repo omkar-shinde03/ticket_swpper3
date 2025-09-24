@@ -460,6 +460,28 @@
   touch-action: pan-x;
 }
 
+/* SVG fixes to prevent 'auto' width/height attributes */
+svg[width="auto"] {
+  width: 1rem !important;
+}
+
+svg[height="auto"] {
+  height: 1rem !important;
+}
+
+/* Force all SVG elements to have proper dimensions */
+svg:not([width]):not([height]) {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Override any CSS that sets SVG dimensions to auto */
+svg {
+  width: var(--svg-width, 1rem);
+  height: var(--svg-height, 1rem);
+}
+}
+
 .mobile-touch-pan-y {
   touch-action: pan-y;
 }
